@@ -36,7 +36,7 @@ export function LoginForm() {
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>Log in</CardTitle>
-        <CardDescription>Use your Supabase email and password account.</CardDescription>
+        <CardDescription>Use your email and password account.</CardDescription>
       </CardHeader>
       <CardContent>
         <form
