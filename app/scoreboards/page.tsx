@@ -10,13 +10,13 @@ export default async function ScoreboardsPage() {
   const scoreboards = await listScoreboardsForUser(user.id);
 
   return (
-    <div className="page-shell">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-normal">Scoreboards</h1>
-          <p className="text-muted-foreground">Manage card game tables and scoring history.</p>
+    <div className="page-shell overflow-x-clip">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+        <div className="min-w-0">
+          <h1 className="break-words text-2xl font-semibold tracking-normal sm:text-3xl">Scoreboards</h1>
+          <p className="max-w-2xl break-words text-muted-foreground">Manage card game tables and scoring history.</p>
         </div>
-        <Button asChild>
+        <Button asChild className="w-full sm:w-auto">
           <Link href="/scoreboards/new">
             <Plus className="h-4 w-4" aria-hidden="true" />
             New scoreboard
@@ -25,12 +25,12 @@ export default async function ScoreboardsPage() {
       </div>
 
       {scoreboards.length === 0 ? (
-        <div className="rounded-lg border border-dashed bg-card p-8 text-center">
+        <div className="min-w-0 rounded-lg border border-dashed bg-card p-5 text-center sm:p-8">
           <p className="text-lg font-medium">No scoreboards yet</p>
           <p className="mt-1 text-sm text-muted-foreground">Create one to start adding players and rounds.</p>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid min-w-0 gap-4 md:grid-cols-2">
           {scoreboards.map((scoreboard) => (
             <ScoreboardCard key={scoreboard.id} scoreboard={scoreboard} />
           ))}

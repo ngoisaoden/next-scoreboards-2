@@ -64,7 +64,7 @@ export function LoginForm() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" name="password" type="password" autoComplete="current-password" required minLength={6} />
           </div>
-          <div className="grid gap-2 sm:grid-cols-2">
+          <div className="grid gap-2">
             <Button type="submit" disabled={isPending}>
               {isPending ? "Working" : "Log in"}
             </Button>

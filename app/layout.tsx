@@ -20,11 +20,11 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <header className="border-b bg-card">
-          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <Link href="/" className="text-lg font-semibold tracking-normal">
+          <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+            <Link href="/" className="min-w-0 break-words text-base font-semibold tracking-normal sm:text-lg">
               Card Scoreboards
             </Link>
-            <nav className="flex items-center gap-3 text-sm">
+            <nav className="flex shrink-0 flex-wrap items-center justify-end gap-3 text-sm">
               {user ? (
                 <>
                   <Link className="text-muted-foreground hover:text-foreground" href="/scoreboards">
