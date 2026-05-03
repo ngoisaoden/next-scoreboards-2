@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Scoreboard {
+  id          String   @id @default(uuid())
+  ownerUserId String   @map("owner_user_id")
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  players ScoreboardPlayer[]
+  rounds  Round[]
+
+  @@map("scoreboards")
+}
+
+model Player {
+  id          String   @id @default(uuid())
+  displayName String   @map("display_name")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  scoreboards ScoreboardPlayer[]
+
+  @@map("players")
+}
+
+model ScoreboardPlayer {
+  id           String   @id @default(uuid())
+  scoreboardId String   @map("scoreboard_id")
+  playerId     String   @map("player_id")
+  nickname     String?
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  scoreboard   Scoreboard     @relation(fields: [scoreboardId], references: [id], onDelete: Cascade)
+  player       Player         @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  roundPlayers RoundPlayer[]
+
+  @@unique([scoreboardId, playerId])
+  @@map("scoreboard_players")
+}
+
+model Round {
+  id           String   @id @default(uuid())
+  scoreboardId String   @map("scoreboard_id")
+  roundNumber  Int      @map("round_number")
+  title        String?
+  playedAt     DateTime? @map("played_at")
+  notes        String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  scoreboard Scoreboard    @relation(fields: [scoreboardId], references: [id], onDelete: Cascade)
+  players    RoundPlayer[]
+
+  @@unique([scoreboardId, roundNumber])
+  @@map("rounds")
+}
+
+model RoundPlayer {
+  id                String   @id @default(uuid())
+  roundId           String   @map("round_id")
+  scoreboardPlayerId String  @map("scoreboard_player_id")
+  score             Int      @default(0)
+  placement         Int?
+  metadata          Json?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  round            Round            @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  scoreboardPlayer ScoreboardPlayer @relation(fields: [scoreboardPlayerId], references: [id], onDelete: Cascade)
+
+  @@unique([roundId, scoreboardPlayerId])
+  @@map("round_players")
+}
